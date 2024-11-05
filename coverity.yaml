@@ -1,0 +1,80 @@
+# coverity --verbose analyze -c coverity-us03sigtsjonpark.yaml
+
+# https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/cli/topics/using_the_command_line_to_override_configuration_settings.html
+  # https://community.synopsys.com/s/article/Creating-a-Coverity-YAML-configuration-file
+  # https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/commands/topics/configuration_syntax_help.html
+
+analyze:
+  ### for cnc 
+  # location: connect
+
+  ### for local
+  location: local
+
+  # model-file: C:\Users\me\Kim's very "best" models\foo.xmldb
+
+  checkers:
+    all: true
+  #   checker-config:
+  #     forward_null:
+  #       enabled: false
+
+    # # modify to use codedx
+    # codexm: 
+    # - cicd/checker.cxm
+  ### checkers end
+
+  coding-standards:
+  #   cert-cpp:
+  #   pre-canned: L1-only
+
+
+
+capture:
+  compiler-configuration:
+    cov-configure:
+      - [ --gcc ]
+
+  build:
+    build-command: make all
+    clean-command: make clean
+
+    # build-command: ninja
+    # clean-command: ninja clean
+    # https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/cli/topics/build_configuration.html
+
+
+  # only c 
+
+  languages:
+    include:
+    - c-family
+  # https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/cli/topics/languages_configuration.html  
+
+  # disable file system capture - not work - COVCLI-2846
+  files:
+    exclude-regex: .*
+
+  # # file system capture - only ./src folder
+  # files:
+  #   include-dirs: 
+  #     - src
+  # # https://sig-product-docs.synopsys.com/bundle/coverity-docs/page/cli/topics/files_configuration.html  
+
+commit:
+  connect:
+    stream: hello-java
+
+    url: http://us03-sig-ts-jonpark.nprd.sig.synopsys.com:8080
+    # url: https://us03-sig-ts-jonpark.nprd.sig.synopsys.com:8443
+    #url: https://cnc.kind.jonpark.synopsys.com:443
+    # url: https://us03-sig-ts-jonpark.nprd.sig.synopsys.com:443
+
+    # The following specifies that unrecognized certificates should not be trusted.
+    # 'on-new-cert' must be set to 'distrust' if the analysis location is 'connect'.
+    
+    on-new-cert: trust
+    # on-new-cert: distrust
+
+# mk cov-auth-key-create
+#    auth-key-file : cicd/auth-key-jonpark.txt
