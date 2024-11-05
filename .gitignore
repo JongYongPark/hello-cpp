@@ -30,3 +30,20 @@
 *.exe
 *.out
 *.app
+
+# Add for blackduck related files
+idir*
+bin*
+.synopsys*
+.polaris-coverity.zip
+logs*
+io_stat*.json
+.io*
+.ninja_*
+.idea*
+build*
+test-cpp
+log*
+work*
+auth-key-*
+cicd*
